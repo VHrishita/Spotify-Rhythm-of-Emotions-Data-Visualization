@@ -1,6 +1,5 @@
 import pandas as pd
 
-# Load with Latin-1 encoding to handle special chars
 df = pd.read_csv("spotify_top_songs_2023.csv", encoding="latin1", on_bad_lines="skip")
 
 # Show columns
