@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-# --- PAGE SETUP ---
 st.set_page_config(page_title="🎶 Rhythm of Emotions", layout="wide", page_icon="🎧")
 st.markdown("""
     <style>
@@ -14,7 +13,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- LOAD AND CLEAN DATA ---
 st.title("🎶 Rhythm of Emotions – The Sound Palette of 2023")
 st.caption("Dive into the emotional heartbeat of Spotify’s top songs from 2023.")
 
@@ -30,7 +28,6 @@ for col in ["streams", "danceability_%", "energy_%", "valence_%",
             .astype(float)
         )
 
-# --- GENRE + COUNTRY MAPS ---
 genre_map = {
     "Jung Kook": "K-Pop", "Latto": "Hip-Hop", "Olivia Rodrigo": "Pop",
     "Taylor Swift": "Pop", "The Weeknd": "R&B", "Drake": "Hip-Hop",
@@ -54,7 +51,6 @@ country_map = {
 df["Genre"] = df["artist(s)_name"].map(lambda x: next((genre_map[a] for a in genre_map if a in x), "Pop"))
 df["Country"] = df["artist(s)_name"].map(lambda x: next((country_map[a] for a in country_map if a in x), "USA"))
 
-# --- MOOD CLASSIFICATION ---
 def mood(val):
     if val >= 70: return "Happy"
     elif val >= 50: return "Chill"
@@ -63,7 +59,6 @@ def mood(val):
 
 df["Mood"] = df["valence_%"].apply(mood)
 
-# --- SIDEBAR FILTER ---
 st.sidebar.header("🎧 Filter the Dashboard")
 selected_genre = st.sidebar.selectbox(
     "Select a Genre:",
@@ -71,7 +66,6 @@ selected_genre = st.sidebar.selectbox(
     index=len(df["Genre"].unique())
 )
 
-# Apply genre filter
 if selected_genre != "All":
     filtered_df = df[df["Genre"] == selected_genre]
 else:
@@ -79,7 +73,6 @@ else:
 
 st.markdown(f"### 📀 Showing songs from genre: **{selected_genre}**")
 
-# --- FUN FACTS ---
 if not filtered_df.empty:
     happiest = filtered_df.loc[filtered_df["valence_%"].idxmax()]
     energetic = filtered_df.loc[filtered_df["energy_%"].idxmax()]
@@ -92,7 +85,6 @@ if not filtered_df.empty:
 
 st.markdown("---")
 
-# --- SCATTER ---
 st.subheader("🎨 Emotional Spectrum of 2023 Hits")
 fig1 = px.scatter(
     filtered_df, x="valence_%", y="energy_%", size="streams", color="Mood",
@@ -102,7 +94,6 @@ fig1 = px.scatter(
 fig1.update_layout(paper_bgcolor="#121212", plot_bgcolor="#121212", font_color="white")
 st.plotly_chart(fig1, use_container_width=True)
 
-# --- PIE + BAR ---
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("💚 Mood Distribution")
@@ -122,12 +113,10 @@ with col2:
     fig3.update_layout(paper_bgcolor="#121212", plot_bgcolor="#121212", font_color="white")
     st.plotly_chart(fig3, use_container_width=True)
 
-# --- MAP (NOW FILTERED BY GENRE) ---
 st.subheader("🌍 Global Pulse – Top 10 Streamed Songs by Country")
 
 top10 = filtered_df.nlargest(10, "streams").copy()
 
-# Add extra mapping fallback
 song_country_map = {
     "seven": "South Korea", "flowers": "United States", "kill bill": "United States",
     "vampire": "United States", "cruel summer": "United States", "calm down": "Nigeria",
@@ -157,7 +146,6 @@ fig_map.update_layout(
 )
 st.plotly_chart(fig_map, use_container_width=True)
 
-# --- HEATMAP ---
 st.subheader("💃 Energy vs Danceability")
 fig5 = px.density_heatmap(
     filtered_df, x="energy_%", y="danceability_%",
@@ -166,7 +154,6 @@ fig5 = px.density_heatmap(
 fig5.update_layout(paper_bgcolor="#121212", plot_bgcolor="#121212", font_color="white")
 st.plotly_chart(fig5, use_container_width=True)
 
-# --- EMOTION PALETTE ---
 st.subheader("🌈 Emotion Palette of 2023")
 sorted_df = filtered_df.sort_values("valence_%")
 fig6 = px.imshow(
