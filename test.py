@@ -14,9 +14,7 @@ for col in ['streams', 'in_spotify_playlists', 'in_spotify_charts',
                               .str.extract('(\d+)', expand=False)
                               .astype(float))
 
-# Drop rows with missing key metrics
 df.dropna(subset=['streams', 'bpm'], inplace=True)
 
-# Save cleaned file
 df.to_csv("spotify_2023_cleaned.csv", index=False)
 print("✅ Cleaned data saved as spotify_2023_cleaned.csv")
