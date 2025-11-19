@@ -2,7 +2,6 @@ import pandas as pd
 
 df = pd.read_csv("spotify_top_songs_2023.csv", encoding="latin1", on_bad_lines="skip")
 
-# Show columns
 print("Before cleaning:\n", df.columns)
 
 # Clean numeric columns safely
