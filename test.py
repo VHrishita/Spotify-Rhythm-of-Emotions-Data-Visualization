@@ -4,7 +4,6 @@ df = pd.read_csv("spotify_top_songs_2023.csv", encoding="latin1", on_bad_lines="
 
 print("Before cleaning:\n", df.columns)
 
-# Clean numeric columns safely
 for col in ['streams', 'in_spotify_playlists', 'in_spotify_charts',
             'in_apple_playlists', 'in_apple_charts',
             'in_deezer_playlists', 'in_deezer_charts',
