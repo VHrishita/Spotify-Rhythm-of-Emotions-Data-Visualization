@@ -165,4 +165,4 @@ fig6.update_layout(coloraxis_showscale=False)
 st.plotly_chart(fig6, use_container_width=True)
 
 st.markdown("---")
-st.markdown("**Developed by Hrishita 💚 | Rhythm of Emotions | Spotify 2023**")
+st.markdown("**Developed by Vempali Hrishita | Rhythm of Emotions | Spotify 2023**")
